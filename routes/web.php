@@ -1,30 +1,23 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    // Our resource routes
-    Route::resource('roles', RoleController::class);
-    Route::resource('users', UserController::class);
-    Route::resource('products', ProductController::class);
+// Admin routes
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin', function() {
+        return 'Admin Panel';
+    })->name('admin.panel');
 });
 
+// Moderator routes
+Route::middleware(['auth', 'role:moderator'])->group(function () {
+    Route::get('/moderator', function() {
+        return 'Moderator Panel';
+    })->name('moderator.panel');
+});
 
 require __DIR__.'/auth.php';
