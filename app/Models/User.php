@@ -28,6 +28,24 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+   /**
+     * Check if the user has a specific permission through any of their roles.
+     *
+     * @param string $permissionName
+     * @return bool
+     */
+    public function hasPermission($permissionName)
+    {
+        foreach ($this->roles as $role) {
+            // to prevent N+1 problem. You could use eager loading elsewhere or here explicitly.
+            if ($role->permissions()->where('name', $permissionName)->first()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
