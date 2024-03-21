@@ -20,4 +20,10 @@ Route::middleware(['auth', 'role:moderator'])->group(function () {
     })->name('moderator.panel');
 });
 
+Route::get('/admin/dashboard', function () {
+})->middleware('permission:manage_dashboard');
+
+Route::post('/create-post', function () {
+})->middleware('permission:create_post');
+
 require __DIR__.'/auth.php';
