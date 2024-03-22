@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserRole
 {
@@ -15,7 +14,7 @@ class EnsureUserRole
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (!in_array($request->user()->role->name, $roles)) {
+        if (! in_array($request->user()->role->name, $roles)) {
             // Redirect or abort if the user role is not allowed
             return abort(403, 'Unauthorized action.');
         }

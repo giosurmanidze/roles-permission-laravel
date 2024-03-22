@@ -21,26 +21,25 @@ class RemoveRoleToUser extends Command
      */
     protected $description = 'Remove role from a user';
 
-
     /**
      * Execute the console command.
      */
     public function handle()
     {
         $email = $this->argument('email');
-        
+
         $user = User::where('email', $email)->first();
-        
-       if($user) {
-        if($user->role_id) {
-            $user->role_id = null;
-            $user->save();
-            $this->info("Role removed from user with email '$email'");
-        }else{
-            $this->info("User does not have a role assigned");
+
+        if ($user) {
+            if ($user->role_id) {
+                $user->role_id = null;
+                $user->save();
+                $this->info("Role removed from user with email '$email'");
+            } else {
+                $this->info('User does not have a role assigned');
+            }
+        } else {
+            $this->error('User not found');
         }
-       }else {
-        $this->error("User not found");
-       }
     }
 }

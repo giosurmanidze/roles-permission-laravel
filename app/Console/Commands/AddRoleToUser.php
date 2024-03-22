@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class AddRoleToUser extends Command
@@ -38,7 +38,7 @@ class AddRoleToUser extends Command
             $user->save();
             $this->info("Role '$roleName' added to user with email '$email'");
         } else {
-            $this->error("User or role not found");
+            $this->error('User or role not found');
         }
     }
 }
